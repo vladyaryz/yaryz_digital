@@ -498,9 +498,24 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: flex;
   flex-direction: column;
   transition: transform 0.2s;
+  cursor: pointer;
 }
 
 .service-card:hover { transform: translateY(-4px); }
+
+.service-desc {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.3s ease, margin 0.3s ease;
+  opacity: 0;
+  margin-bottom: 0;
+}
+
+.service-card.expanded .service-desc {
+  max-height: 200px;
+  opacity: 1;
+  margin-bottom: 28px;
+}
 
 .service-card.dark  { background: var(--c-dark); border: 1px solid rgba(255,255,255,0.1); }
 .service-card.orange { background: var(--c-orange); color: var(--c-dark); }
@@ -546,7 +561,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-size: 14px;
   font-weight: 400;
   line-height: 1.5;
-  margin-bottom: 28px;
 }
 
 .service-card.dark .service-desc,
@@ -1369,17 +1383,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   </div>
 
   <div class="services-grid">
-    <div class="service-card dark">
+    <div class="service-card dark" onclick="toggleService(this)">
       <div class="service-num"><span>/ 01</span><span>AUDIT</span></div>
       <div class="service-name">АУДИТ</div>
       <div class="service-price">€150</div>
-      <div class="service-desc">Розбір реклами + документ з правками. Все по пунктах: що зламано, що змінити, чому.</div>
+      <div class="service-desc">Якщо реклама вже йде — знаходжу, де втрачаються гроші. Якщо ще ні — оцінюю, чи готова воронка її приймати. На виході ти отримуєш документ із пріоритезованими правками.</div>
       <div class="service-arrow">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
       </div>
     </div>
 
-    <div class="service-card orange">
+    <div class="service-card orange" onclick="toggleService(this)">
       <div class="service-num"><span>/ 02</span><span>LAUNCH</span></div>
       <div class="service-name">ЗАПУСК</div>
       <div class="service-price">€350</div>
@@ -1389,7 +1403,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       </div>
     </div>
 
-    <div class="service-card gray">
+    <div class="service-card gray" onclick="toggleService(this)">
       <div class="service-num"><span>/ 03</span><span>MANAGE</span></div>
       <div class="service-name">ВЕДЕННЯ</div>
       <div class="service-price">€500/міс</div>
@@ -1639,6 +1653,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   function closeNav() {
     document.getElementById('navOverlay').classList.remove('open');
     document.body.style.overflow = '';
+  }
+
+  /* Services toggle */
+  function toggleService(card) {
+    card.classList.toggle('expanded');
   }
 
   /* Contact modal */
