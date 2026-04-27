@@ -166,7 +166,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding: 0 64px 0 64px;
   position: relative;
   display: grid;
-  grid-template-columns: 1020px 820px 1fr;
+  grid-template-columns: 55fr 45fr;
   grid-template-rows: 1fr auto;
   column-gap: 48px;
   overflow: hidden;
@@ -917,13 +917,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
    RESPONSIVE — TABLET / MOBILE
    ============================================ */
 
-@media (max-width: 1280px) {
-  .hero { grid-template-columns: 1fr 400px 0; column-gap: 40px; }
-}
-
 @media (max-width: 1024px) {
   .header { padding: 20px 32px; }
-  .hero { padding: 0 32px 0 32px; grid-template-columns: 1fr 340px 0; column-gap: 32px; }
+  .hero { padding: 0 32px 0 32px; grid-template-columns: 55fr 45fr; column-gap: 32px; }
   .hero-left { padding-top: 120px; }
   .hero-right { padding-top: 72px; }
   .hero-meta { left: 32px; }
