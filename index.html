@@ -1033,9 +1033,189 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 @media (max-width: 768px) {
   .step-inner { display: contents; }
 }
+
+/* ============================================
+   CONTACT MODAL
+   ============================================ */
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(6px);
+}
+
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: #222;
+  border: 1px solid rgba(255,255,255,0.1);
+  width: 100%;
+  max-width: 520px;
+  padding: 48px;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px; right: 20px;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  background: none;
+  color: var(--c-white);
+}
+.modal-close:hover { border-color: var(--c-orange); color: var(--c-orange); }
+
+.modal-title {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 32px;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+.modal-sub {
+  font-size: 13px;
+  color: var(--c-gray);
+  margin-bottom: 32px;
+  font-family: var(--f-mono);
+  letter-spacing: 0.04em;
+}
+
+.modal-field {
+  margin-bottom: 16px;
+}
+
+.modal-label {
+  display: block;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-orange);
+  margin-bottom: 8px;
+}
+
+.modal-input,
+.modal-textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--c-white);
+  font-family: var(--f-body);
+  font-size: 15px;
+  padding: 14px 16px;
+  outline: none;
+  transition: border-color 0.2s;
+  border-radius: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.modal-input:focus,
+.modal-textarea:focus { border-color: var(--c-orange); }
+
+.modal-textarea {
+  resize: vertical;
+  min-height: 140px;
+  line-height: 1.5;
+}
+
+.modal-submit {
+  width: 100%;
+  background: var(--c-orange);
+  color: var(--c-dark);
+  border: none;
+  padding: 16px 24px;
+  font-family: var(--f-body);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s, transform 0.18s;
+}
+.modal-submit:hover { background: var(--c-orange-hover); transform: translateY(-1px); }
+.modal-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.modal-success {
+  display: none;
+  text-align: center;
+  padding: 24px 0;
+}
+
+.modal-success-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+}
+
+.modal-success-text {
+  font-family: var(--f-display);
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.modal-success-sub {
+  font-size: 14px;
+  color: var(--c-gray);
+}
+
+@media (max-width: 768px) {
+  .modal { padding: 32px 24px; }
+  .modal-title { font-size: 26px; }
+}
 </style>
 </head>
 <body>
+
+<!-- CONTACT MODAL -->
+<div class="modal-overlay" id="contactModal" onclick="handleModalClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="Закрити">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M1 1l10 10M11 1L1 11"/>
+      </svg>
+    </button>
+
+    <div id="modalForm">
+      <div class="modal-title">Написати</div>
+      <div class="modal-sub">→ vyariz74@gmail.com</div>
+
+      <form id="contactForm" action="https://formspree.io/f/FORM_ID" method="POST">
+        <div class="modal-field">
+          <label class="modal-label" for="senderEmail">Ваш email</label>
+          <input class="modal-input" type="email" id="senderEmail" name="email" placeholder="your@email.com" required/>
+        </div>
+        <div class="modal-field">
+          <label class="modal-label" for="message">Повідомлення</label>
+          <textarea class="modal-textarea" id="message" name="message" placeholder="Розкажіть про ваш проект..." required></textarea>
+        </div>
+        <button class="modal-submit" type="submit" id="submitBtn">Надіслати →</button>
+      </form>
+    </div>
+
+    <div class="modal-success" id="modalSuccess">
+      <div class="modal-success-icon">✓</div>
+      <div class="modal-success-text">Надіслано!</div>
+      <div class="modal-success-sub">Відповім протягом доби.</div>
+    </div>
+  </div>
+</div>
 
 <!-- MOBILE NAV OVERLAY -->
 <div class="nav-overlay" id="navOverlay">
@@ -1427,10 +1607,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <span>INSTAGRAM @YARYZ.DIGITAL</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
     </a>
-    <a href="mailto:vyariz74@gmail.com" class="btn-dark">
+    <button onclick="openModal()" class="btn-dark" style="border:none;cursor:pointer;">
       <span>EMAIL</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
-    </a>
+    </button>
     <a href="https://wa.me/48796229724" target="_blank" rel="noopener" class="btn-dark">
       <span>WHATSAPP</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
@@ -1460,6 +1640,51 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     document.getElementById('navOverlay').classList.remove('open');
     document.body.style.overflow = '';
   }
+
+  /* Contact modal */
+  function openModal() {
+    document.getElementById('contactModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('contactModal').classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      document.getElementById('modalForm').style.display = 'block';
+      document.getElementById('modalSuccess').style.display = 'none';
+      document.getElementById('contactForm').reset();
+      document.getElementById('submitBtn').disabled = false;
+      document.getElementById('submitBtn').textContent = 'Надіслати →';
+    }, 300);
+  }
+  function handleModalClick(e) {
+    if (e.target === document.getElementById('contactModal')) closeModal();
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Надсилаю...';
+    try {
+      const res = await fetch(this.action, {
+        method: 'POST',
+        body: new FormData(this),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        document.getElementById('modalForm').style.display = 'none';
+        document.getElementById('modalSuccess').style.display = 'block';
+      } else {
+        btn.disabled = false;
+        btn.textContent = 'Помилка — спробуй ще раз';
+      }
+    } catch {
+      btn.disabled = false;
+      btn.textContent = 'Помилка — спробуй ще раз';
+    }
+  });
 
   /* Step layout on mobile — wrap title+desc in a div */
   function wrapStepContent() {
