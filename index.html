@@ -1147,6 +1147,33 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   line-height: 1.5;
 }
 
+.modal-templates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.modal-tpl {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.7);
+  padding: 8px 14px;
+  font-family: var(--f-body);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 999px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  text-align: left;
+}
+
+.modal-tpl:hover,
+.modal-tpl.active {
+  border-color: var(--c-orange);
+  color: var(--c-orange);
+  background: rgba(232,93,60,0.08);
+}
+
 .modal-submit {
   width: 100%;
   background: var(--c-orange);
@@ -1212,12 +1239,24 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
       <form id="contactForm" action="https://formspree.io/f/mwvadoqn" method="POST">
         <div class="modal-field">
+          <label class="modal-label" for="senderName">Ваше ім'я</label>
+          <input class="modal-input" type="text" id="senderName" name="name" placeholder="Як вас звати?" required/>
+        </div>
+        <div class="modal-field">
           <label class="modal-label" for="senderEmail">Ваш email</label>
           <input class="modal-input" type="email" id="senderEmail" name="email" placeholder="your@email.com" required/>
         </div>
         <div class="modal-field">
+          <label class="modal-label">Тема звернення</label>
+          <div class="modal-templates">
+            <button type="button" class="modal-tpl" onclick="setTemplate(this, 'Хочу зробити аудит реклами. Реклама вже йде, але результат не влаштовує. Хотів би розібратись, де втрачаються гроші.')">Аудит реклами</button>
+            <button type="button" class="modal-tpl" onclick="setTemplate(this, 'Хочу запустити рекламу з нуля. Продукт готовий, бюджет є — потрібна допомога зі стратегією і запуском.')">Запуск з нуля</button>
+            <button type="button" class="modal-tpl" onclick="setTemplate(this, 'Шукаю спеціаліста для ведення реклами на постійній основі. Хочу обговорити умови співпраці.')">Постійне ведення</button>
+          </div>
+        </div>
+        <div class="modal-field">
           <label class="modal-label" for="message">Повідомлення</label>
-          <textarea class="modal-textarea" id="message" name="message" placeholder="Розкажіть про ваш проект..." required></textarea>
+          <textarea class="modal-textarea" id="message" name="message" placeholder="Або напишіть самі — розкажіть про ваш проект..." required></textarea>
         </div>
         <button class="modal-submit" type="submit" id="submitBtn">Надіслати →</button>
       </form>
@@ -1653,6 +1692,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   function closeNav() {
     document.getElementById('navOverlay').classList.remove('open');
     document.body.style.overflow = '';
+  }
+
+  /* Modal templates */
+  function setTemplate(btn, text) {
+    document.getElementById('message').value = text;
+    document.querySelectorAll('.modal-tpl').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('message').focus();
   }
 
   /* Services toggle */
